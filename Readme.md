@@ -1,8 +1,6 @@
 Returnpath Task
 =======
 
-A lightweight microservice that allows you to explore the mandelbrot fractal google maps-style!
-
 ## Dependencies
 
 This project is run using [docker](https://www.docker.com/) and [kubernetes](https://kubernetes.io/).
