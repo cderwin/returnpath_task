@@ -1,10 +1,10 @@
 project := returnpath_task
-registry := registry.camderwin.us
+registry := cderwin
 image_name := $(project)
 tag := $(shell echo "latest")
 image := $(registry)/$(project):$(tag)
 
-.PHONY: run sh build deploy end
+.PHONY: run sh build push-image deploy-minikube
 
 .ts.container: app.py Pipfile Pipfile.lock Dockerfile
 	docker build . -t $(image_name) && \
@@ -12,13 +12,11 @@ image := $(registry)/$(project):$(tag)
 
 run: .ts.container
 	docker run --rm \
-		-v $$(pwd)/static:/static \
 		-p 8000:8000 \
 		$(image_name)
 
 sh: $(executable)
 	docker run --rm -it \
-		-v $$(pwd)/static:/static \
 		-v $$(pwd):/src \
 		-p 8000:8000 \
 		$(image_name) \
@@ -26,6 +24,6 @@ sh: $(executable)
 
 build: .ts.container
 
-deploy: $(executable)
+push-image:
 	docker build . -t $(image)  && \
 	docker push $(image)
